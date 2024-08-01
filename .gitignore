@@ -1,0 +1,6 @@
+__pycache__
+website/env
+website/assets_compiled
+
+todo.txt
+install.txt
