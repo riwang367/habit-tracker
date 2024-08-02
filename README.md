@@ -23,10 +23,10 @@ Install Flask:
 Check for execute permissions on bash scripts and add if needed:
 
     ls -l ./bin/flaskrun
-    chmod +x bin/flaskrun
+    chmod +x ./bin/flaskrun
 
     ls -ls ./bin/database
-    chmod +x bin/database
+    chmod +x ./bin/database
 
 ## Running the app
 Navigate to website folder:
@@ -39,7 +39,7 @@ Start the Vite devserver:
 
 Open a new terminal and navigate to the project directory. Start the flask server:
 
-    ../bin/flaskrun
+    ./bin/flaskrun
 
 
 ## Resources

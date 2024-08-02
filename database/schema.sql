@@ -1,0 +1,21 @@
+CREATE TABLE Habits (
+    habit_id INTEGER PRIMARY KEY,
+    habit_name VARCHAR(100) NOT NULL,
+    habit_desc TEXT,
+    reward_id INTEGER,
+    FOREIGN KEY(reward_id) REFERENCES Rewards (reward_id)
+);
+
+CREATE TABLE Rewards (
+    reward_id INTEGER PRIMARY KEY,
+    reward_name VARCHAR(100) NOT NULL,
+    goal INTEGER NOT NULL,
+    current_progress DOUBLE NOT NULL DEFAULT 0
+);
+
+-- Template for habits
+CREATE TABLE ExampleHabit (
+    id INTEGER PRIMARY KEY,
+    timestamp VARCHAR(100),
+    notes TEXT
+)

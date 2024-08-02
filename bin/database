@@ -1,0 +1,55 @@
+#!/bin/bash
+# dabatase
+
+# Stop on errors, print commands
+# See https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
+set -Eeuo pipefail
+set -x
+
+usage() {
+    echo "Usage: $ (create|destroy|reset|dump)"
+}
+
+if [ $# -ne 1 ]; then
+  usage
+  exit 1
+fi
+
+# Parse argument.  $1 is the first argument
+case $1 in
+  "create")
+    if [ -e website/var/habit_tracker.sqlite3 ]
+    then
+      echo "Error: database already exists"
+    else
+      mkdir -p website/var #/uploads # Don't need this if no uploads
+      sqlite3 website/var/habit_tracker.sqlite3 < database/schema.sql
+      sqlite3 website/var/habit_tracker.sqlite3 < database/data.sql
+      # cp database/uploads/* var/uploads/ # Don't need this if no uploads
+    fi
+    ;;
+    
+  "destroy")
+    rm -rf website/var/habit_tracker.sqlite3 var/uploads
+    ;;
+
+  "reset")
+    # rm -rf website/var/habit_tracker.sqlite3 var/uploads # Don't need this if no uploads
+    # mkdir -p website/var/uploads
+    sqlite3 website/var/habit_tracker.sqlite3 < database/schema.sql
+    sqlite3 website/var/habit_tracker.sqlite3 < database/data.sql
+    # Temporary comment out
+    #cp database/uploads/* var/uploads/
+    ;;
+
+    # "dump")
+    # # TODO: Write to a file instead
+    # sqlite3 -batch -line var/website.sqlite3 'SELECT * FROM Habits'
+    # sqlite3 -batch -line var/website.sqlite3 'SELECT * FROM Rewards'
+    # ;;
+
+    *)
+    usage
+    exit 1
+    ;;
+esac
