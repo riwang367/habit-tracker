@@ -3,22 +3,20 @@ Clone this repository to your local machine
 
 	git clone git@github.com:riwang367/habit-tracker.git
 
-Open directory and navigate to website folder:
+Navigate to the project folder. Create and start virtual environment:
 
-    cd habit-tracker/website
-
-Install project dependencies:
-
-	npm install
-
-Create and start virtual environment:
-
+    cd habit-tracker
     python3 -m venv env
     source env/bin/activate
 
 Install Flask:
 
     pip install Flask
+
+Navigate to website folder. Install project dependencies:
+
+    cd website
+	npm install
 
 Check for execute permissions on bash scripts and add if needed:
 
@@ -37,7 +35,7 @@ Start the Vite devserver:
 
     npm run dev
 
-Open a new terminal and navigate to the project directory. Start the flask server:
+Open a new terminal and navigate to the project folder. Start the Flask server:
 
     ./bin/flaskrun
 
