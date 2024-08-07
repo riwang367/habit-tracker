@@ -16,7 +16,7 @@ export default defineConfig({
     // Specifies the entry points for bundling
     rollupOptions: {
         input: [
-          "assets_source/script.js",
+          "assets_source/script.jsx",
           "assets_source/styles.css",
         ],
     },
