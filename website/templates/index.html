@@ -5,8 +5,8 @@
     <!-- Allows app to use hot reloading -->
     <script type="module" src="{{ asset('@vite/client') }}"></script>
     {%- endif %}
-    <link rel="stylesheet" href="{{ asset('styles.css') }}" />
-    <script type="module" src="{{ asset('script.jsx') }}"></script>
+    <link rel="stylesheet" href="{{ asset('styles/styles.css') }}" />
+    <script type="module" src="{{ asset('scripts/script.jsx') }}"></script>
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,5 +15,9 @@
   <body>
     <h1>Hello, world!</h1>
     <div id="test"></div>
+    <div>
+      <h2>Add a reward</h2>
+      <div id="reward-form"></div>
+    </div>
   </body>
 </html>

@@ -1,8 +1,10 @@
 import path from "node:path";
 
-import { defineConfig } from "vite";
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
+  plugins: [react()],
   // Specifies the directory for our unbundled assets
   root: path.join(__dirname, "./assets_source/"),
   // Specifies the base URL path where assets will be made available to the browser
@@ -16,8 +18,8 @@ export default defineConfig({
     // Specifies the entry points for bundling
     rollupOptions: {
         input: [
-          "assets_source/script.jsx",
-          "assets_source/styles.css",
+          "assets_source/scripts/script.jsx",
+          "assets_source/styles/styles.css",
         ],
     },
     // Vite will delete files in outDir before rebuilding
