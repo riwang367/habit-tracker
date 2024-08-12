@@ -1,6 +1,7 @@
 __pycache__
 env
 website/assets_compiled
+website/var/
 
 todo.txt
 install.txt
