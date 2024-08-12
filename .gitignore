@@ -2,6 +2,7 @@ __pycache__
 env
 website/assets_compiled
 website/var
+website/var/habit_tracker.sqlite3
 
 todo.txt
 install.txt
