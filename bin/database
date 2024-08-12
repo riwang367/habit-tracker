@@ -34,7 +34,7 @@ case $1 in
     ;;
 
   "reset")
-    # rm -rf website/var/habit_tracker.sqlite3 var/uploads # Don't need this if no uploads
+    rm -rf website/var/habit_tracker.sqlite3 # var/uploads # Don't need this if no uploads
     # mkdir -p website/var/uploads
     sqlite3 website/var/habit_tracker.sqlite3 < database/schema.sql
     sqlite3 website/var/habit_tracker.sqlite3 < database/data.sql

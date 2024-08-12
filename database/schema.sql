@@ -9,6 +9,7 @@ CREATE TABLE Habits (
 CREATE TABLE Rewards (
     reward_id INTEGER PRIMARY KEY,
     reward_name VARCHAR(100) NOT NULL,
+    reward_desc TEXT,
     goal INTEGER NOT NULL,
     current_progress DOUBLE NOT NULL DEFAULT 0
 );
