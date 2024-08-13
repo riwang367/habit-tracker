@@ -6,11 +6,9 @@ import pathlib
 APPLICATION_ROOT = '/'
 
 # Secret key for encrypting cookies
-SECRET_KEY = b'7\xf1\xd2}!v[\xb2\x01\xef;\x0cY\xb5\xf6\x84\xc2\xd7\x08\xb6\xf5S\xd1\xac'
+SECRET_KEY = b'\xac\xb0\x04\x1c*<d\xb0\x81hw\xda\xb5\x9bw\xf4\x9c\x1f\xdd\x14\xec2\xbf\xd2'
 SESSION_COOKIE_NAME = 'login'
 
-# File Upload to var/uploads/
-TRACKER_ROOT = pathlib.Path(__file__).resolve().parent.parent
-
+TRACKER_ROOT = pathlib.Path(__file__).resolve().parent
 # Database file is var/habit_tracker.sqlite3
 DATABASE_FILENAME = TRACKER_ROOT/'var'/'habit_tracker.sqlite3'

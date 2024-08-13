@@ -20,6 +20,7 @@ def get_db():
     """
     if 'sqlite_db' not in flask.g:
         db_filename = website.app.config['DATABASE_FILENAME']
+        print(f"*************************{db_filename}")
         flask.g.sqlite_db = sqlite3.connect(str(db_filename))
         flask.g.sqlite_db.row_factory = dict_factory
 
