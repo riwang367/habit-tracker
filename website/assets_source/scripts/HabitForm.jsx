@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 // Get reward data from server and pass in? or setState? or setState in script?
 function HabitForm(reward) {
