@@ -6,9 +6,7 @@ function RewardList({ list }) {
     list = list.replaceAll("\"", "&quot;")
     // Replace single quotes with double quotes
     list = list.replaceAll("'","\"");
-
     const json_list = JSON.parse(list);
-    console.log(json_list);
 
     const reward_list = [];
     for (const index in json_list) {

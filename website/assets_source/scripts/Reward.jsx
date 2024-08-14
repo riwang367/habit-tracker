@@ -9,7 +9,7 @@ function Reward({ name, desc, goal, progress }) {
             fontFamily: "Consolas"
         }
     };
-    // TODO: progress bar style
+    
     return (
         <div style={ styles.container }>
             <h3 style={ styles.h3 }>{ name }</h3>
