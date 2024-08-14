@@ -1,6 +1,6 @@
 import React from "react";
 
-function Reward({name, goal, progress}) {
+function Reward({ name, desc, goal, progress }) {
     const styles = {
         container: {
             width: "80%"
@@ -11,9 +11,10 @@ function Reward({name, goal, progress}) {
     };
     // TODO: progress bar style
     return (
-        <div style={styles.container}>
-            <h3 style={styles.h3}>{name}</h3>
-            <p>Current status: {progress}/{goal}</p>
+        <div style={ styles.container }>
+            <h3 style={ styles.h3 }>{ name }</h3>
+            <p>{ desc }</p>
+            <p>Current status: { progress }/{ goal }</p>
         </div>
     )
 };

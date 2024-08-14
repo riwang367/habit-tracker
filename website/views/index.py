@@ -3,7 +3,22 @@ import website
 
 @website.app.route("/", methods=["GET"])
 def show_index():
-    return flask.render_template("index.html")
+    connection = website.model.get_db()
+    cur = connection.execute(
+        "SELECT reward_name, reward_desc, goal, progress FROM Rewards"
+    )
+    rewards = cur.fetchall()
+    # Manipulate rewards for easier attribute parsing in React
+    # { index : { rewards values }, index : { rewards_values} }
+    rewards_dict = {}
+    for count, reward in enumerate(rewards):
+        rewards_dict[str(count)] = reward
+
+    context = {
+        "rewards": rewards_dict
+    }
+
+    return flask.render_template("index.html", **context), 200
 
 @website.app.route("/add-habit/", methods=["POST"])
 def add_habit():
@@ -29,7 +44,6 @@ def add_habit():
 def add_reward():
     reward = flask.request.form["reward"]
     goal = flask.request.form["goal"]
-    connection = website.model.get_db()
 
     connection = website.model.get_db()
     connection.execute(
