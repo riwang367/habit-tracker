@@ -15,8 +15,8 @@ CREATE TABLE Rewards (
 );
 
 -- Template for habits
-CREATE TABLE ExampleHabit (
-    id INTEGER PRIMARY KEY,
-    timestamp VARCHAR(100),
-    notes TEXT
-)
+-- CREATE TABLE ExampleHabit (
+--     id INTEGER PRIMARY KEY,
+--     timestamp VARCHAR(100),
+--     notes TEXT
+-- )
