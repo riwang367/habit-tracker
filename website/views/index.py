@@ -19,6 +19,14 @@ def show_index():
         # Convert index to string to match JSON format
         rewards_dict[str(count)] = reward
 
+    # TODO
+    # habit_dict
+    # { index: { 
+    #       "habit_name": name
+    #       "habit_desc": desc
+    #       "reward": reward (query using reward_id)
+    #       "history": records from habit_name table
+    # } }
     context = {
         "rewards": rewards_dict
     }
@@ -37,10 +45,21 @@ def add_habit():
         (reward_name)
     ).fetchone()
 
+    print(reward_id)
+
     connection = website.model.get_db()
     connection.execute(
-        "INSERT INTO Habits(row, names) "
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO Habits(habit_name, habit_desc, reward_id) "
+        "VALUES (?, ?, ?)",
+        habit, desc, reward_id
+    )
+
+    connection.execute(
+        "CREATE TABLE (habit_name) ( "
+            "id INTEGER PRIMARY KEY, "
+            "timestamp VARCHAR(100), "
+            "notes TEXT"
+        ")"
     )
     
     return flask.redirect(flask.url_for("show_index"))
