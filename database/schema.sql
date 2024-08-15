@@ -2,7 +2,7 @@ CREATE TABLE Habits (
     habit_id INTEGER PRIMARY KEY,
     habit_name VARCHAR(100) NOT NULL,
     habit_desc TEXT,
-    reward_id INTEGER,
+    reward_id INTEGER NOT NULL,
     FOREIGN KEY(reward_id) REFERENCES Rewards (reward_id)
 );
 
@@ -17,6 +17,6 @@ CREATE TABLE Rewards (
 -- Template for habits
 -- CREATE TABLE ExampleHabit (
 --     id INTEGER PRIMARY KEY,
---     timestamp VARCHAR(100),
+--     timestamp VARCHAR(100) NOT NULL,
 --     notes TEXT
 -- )
