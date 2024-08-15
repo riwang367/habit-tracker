@@ -10,7 +10,6 @@ function RewardList({ list }) {
 
     const reward_list = [];
     for (const index in json_list) {
-        console.log(json_list[index]);
         const item = json_list[index];
         reward_list.push(<Reward 
             name={ item.reward_name }
