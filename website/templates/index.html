@@ -2,8 +2,15 @@
 <html lang="en">
   <head>
     {%- if not is_production %}
-    <!-- Allows app to use hot reloading -->
-    <script type="module" src="{{ asset('@vite/client') }}"></script>
+      <!-- Allows app to use hot reloading -->
+      <script type="module" src="{{ asset('@vite/client') }}"></script>
+      <script type="module">
+        import RefreshRuntime from "{{ asset('@react-refresh') }}"
+        RefreshRuntime.injectIntoGlobalHook(window)
+        window.$RefreshReg$ = () => {}
+        window.$RefreshSig$ = () => (type) => type
+        window.__vite_plugin_react_preamble_installed__ = true
+      </script>
     {%- endif %}
     <link rel="stylesheet" href="{{ asset('styles/styles.css') }}" />
     <script type="module" src="{{ asset('scripts/script.jsx') }}"></script>

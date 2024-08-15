@@ -2,7 +2,7 @@ import React from "react";
 
 function RewardForm() {
     return (
-        <form action="/add-reward/" method="post" enctype="multipart/form-data">
+        <form action="/add-reward/" method="post" encType="multipart/form-data">
             <label>
                 Reward
                 <input type="text" name="reward"></input>
