@@ -20,8 +20,8 @@ Navigate to website folder. Install project dependencies:
 
 Check for execute permissions on bash scripts and add if needed:
 
-    ls -l ./bin/flaskrun
-    chmod +x ./bin/flaskrun
+    ls -l ./bin/flask
+    chmod +x ./bin/flask
 
     ls -ls ./bin/database
     chmod +x ./bin/database
@@ -37,7 +37,7 @@ Start the Vite devserver:
 
 Open a new terminal and navigate to the project folder. Start the Flask server:
 
-    ./bin/flaskrun
+    ./bin/flask run
 
 
 ## Resources
