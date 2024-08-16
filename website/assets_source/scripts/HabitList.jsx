@@ -1,5 +1,6 @@
 import React from "react";
 import Habit from "./Habit";
+import { replaceQuotes } from "./helperFunctions";
 
 function HabitList({ list }) {
     const json_list = JSON.parse(replaceQuotes(list));
