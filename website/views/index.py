@@ -4,12 +4,13 @@ import website
 @website.app.route("/", methods=["GET"])
 def show_index():
     connection = website.model.get_db()
+
     cur = connection.execute(
         "SELECT reward_name, reward_desc, goal, progress FROM Rewards"
     )
     rewards = cur.fetchall()
     # Manipulate rewards for easier attribute parsing in React
-    # { index : { rewards values }, index : { rewards_values} }
+    # { index : { rewards values } }
     rewards_dict = {}
     for count, reward in enumerate(rewards):
         # Remove reward_desc from obj if empty
@@ -19,7 +20,10 @@ def show_index():
         # Convert index to string to match JSON format
         rewards_dict[str(count)] = reward
 
-    # TODO
+    cur = connection.execute(
+        "SELECT * FROM Habits"
+    )
+    habits = cur.fetchall()
     # habit_dict
     # { index: { 
     #       "habit_name": name
@@ -27,8 +31,41 @@ def show_index():
     #       "reward": reward (query using reward_id)
     #       "history": records from habit_name table
     # } }
+    habits_dict = {}
+
+    # FIXME: get habits stuff working
+    for count, habit in enumerate(habits):
+        if (habit["habit_desc"] == None):
+            habit.pop("habit_desc")
+
+        # Change reward value to name
+        cur = connection.execute(
+            "SELECT reward_name FROM Rewards "
+            "WHERE reward_id = ?",
+            (habit["reward_id"],)
+        )
+        
+        habit["reward"] = cur.fetchone()["reward_name"]
+        habit.pop("reward_id")
+        
+        cur = connection.execute(
+            "SELECT timestamp, notes FROM habit" + str(habit["habit_id"])
+        )
+        history = cur.fetchall()
+
+        if (len(history) == 0):
+            habit["history"] = "Nothing tracked yet"
+        else:
+            history_dict = dict(enumerate(history))
+            habit["history"] = history_dict
+
+        habits_dict[str(count)] = habit
+
+    print(habits_dict)
+
     context = {
-        "rewards": rewards_dict
+        "rewards": rewards_dict,
+        "habits": habits_dict
     }
 
     return flask.render_template("index.html", **context), 200
@@ -42,22 +79,33 @@ def add_habit():
     reward_id = connection.execute(
         "SELECT reward_id FROM Rewards "
         "WHERE reward_name = ?",
-        (reward_name)
-    ).fetchone()
-
-    print(reward_id)
+        (reward_name,)
+    ).fetchone()["reward_id"]
 
     connection = website.model.get_db()
-    connection.execute(
-        "INSERT INTO Habits(habit_name, habit_desc, reward_id) "
-        "VALUES (?, ?, ?)",
-        habit, desc, reward_id
-    )
 
+    if (desc is None or desc == ""):
+        connection.execute(
+            "INSERT INTO Habits(habit_name, reward_id) "
+            "VALUES (?, ?)",
+            (habit, reward_id)
+        )
+    else:
+        connection.execute(
+            "INSERT INTO Habits(habit_name, habit_desc, reward_id) "
+            "VALUES (?, ?, ?)",
+            (habit, desc, reward_id)
+        )
+
+    habit_id = connection.execute(
+        "SELECT habit_id FROM Habits "
+        "WHERE habit_name = ?",
+        (habit)
+    ).fetchone()["habit_id"]
     connection.execute(
-        "CREATE TABLE (habit_name) ( "
+        "CREATE TABLE habit" + habit_id + "("
             "id INTEGER PRIMARY KEY, "
-            "timestamp VARCHAR(100), "
+            "timestamp VARCHAR(100) NOT NULL, "
             "notes TEXT"
         ")"
     )
