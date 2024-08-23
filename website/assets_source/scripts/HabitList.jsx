@@ -4,6 +4,7 @@ import { replaceQuotes } from "./helperFunctions";
 
 function HabitList({ list }) {
     const json_list = JSON.parse(replaceQuotes(list));
+
     const habit_list = [];
     for (const index in json_list) {
         const item = json_list[index];
@@ -22,4 +23,3 @@ function HabitList({ list }) {
 };
 
 export default HabitList;
-  

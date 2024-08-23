@@ -56,7 +56,12 @@ def show_index():
         if (len(history) == 0):
             habit["history"] = "Nothing tracked yet"
         else:
-            history_dict = dict(enumerate(history))
+            # FIXME: change the id to a string
+            history_dict = {}
+            for index, dict in enumerate(history):
+                history_dict[str(index)] = dict
+            
+            print(history_dict)
             habit["history"] = history_dict
 
         habits_dict[str(count)] = habit
