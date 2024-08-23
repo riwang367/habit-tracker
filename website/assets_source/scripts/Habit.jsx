@@ -1,12 +1,19 @@
 import React from "react";
+import { useState } from 'react';
 
 function Habit({ name, desc, reward, history }) {
+    const [hasHistory, setHasHistory] = useState(typeof(history) !== "string");
     const history_list = [];
-    for (const index in history) {
-        const item = history[index];
-        history_list.push(<li>
-            { item.timestamp } - { item.notes }
-        </li>);
+
+    // FIXME: something causes constant rerendering :[
+    if (typeof(history) !== "string") {
+        console.log("Testing");
+        for (const index in history) {
+            const item = history[index];
+            history_list.push(<li>
+                { item.timestamp } - { item.notes }
+            </li>);
+        }
     }
 
     const styles = {
@@ -24,7 +31,7 @@ function Habit({ name, desc, reward, history }) {
             <p>{ desc }</p>
             <p>Linked reward: { reward }</p>
             <ul>
-                { history_list}
+                { hasHistory ? history_list : "Nothing tracked yet!"}
             </ul>
         </div>
     )

@@ -33,7 +33,7 @@ def show_index():
     # } }
     habits_dict = {}
 
-    # FIXME: get habits stuff working
+    # FIXME: history prints - - - -
     for count, habit in enumerate(habits):
         if (habit["habit_desc"] == None):
             habit.pop("habit_desc")
@@ -105,10 +105,11 @@ def add_habit():
     habit_id = connection.execute(
         "SELECT habit_id FROM Habits "
         "WHERE habit_name = ?",
-        (habit)
+        (habit,)
     ).fetchone()["habit_id"]
+
     connection.execute(
-        "CREATE TABLE habit" + habit_id + "("
+        "CREATE TABLE habit" + str(habit_id) + "("
             "id INTEGER PRIMARY KEY, "
             "timestamp VARCHAR(100) NOT NULL, "
             "notes TEXT"
