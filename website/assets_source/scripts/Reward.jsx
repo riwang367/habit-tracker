@@ -11,7 +11,7 @@ function Reward({ name, desc, goal, progress }) {
     };
     
     return (
-        <div style={ styles.container }>
+        <div style={ styles.container } className="reward">
             <h3 style={ styles.h3 }>{ name }</h3>
             <p>{ desc }</p>
             <p>Current status: { progress }/{ goal }</p>

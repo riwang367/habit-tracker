@@ -21,19 +21,14 @@
   </head>
   <body>
     <h1>Hello, world!</h1>
-    <div>
-      <h2>Add a reward</h2>
-      <div id="reward-form">Loading...</div>
-    </div>
-      <h2>Rewards</h2>
-      <div id="reward-list" rewards="{{ rewards }}">Loading...</div>
-    <div>
-      <h2>Add a habit</h2>
-      <div id="habit-form" rewards="{{ rewards }}">Loading...</div>
-    </div>
-    <div>
-      <h2>Habits</h2>
-      <div id="habit-list" habits="{{ habits }}">Loading...</div>
-    </div>
+    <div id="react-trackers" habits="{{ habits }}">Loading...</div>
+
+    <div id="react-reward-form">Loading...</div>
+
+    <div id="react-reward-list" rewards="{{ rewards }}">Loading...</div>
+
+    <div id="react-habit-form" rewards="{{ rewards }}">Loading...</div>
+
+    <div id="react-habit-list" habits="{{ habits }}">Loading...</div>
   </body>
 </html>

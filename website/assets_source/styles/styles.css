@@ -1,10 +1,14 @@
 body {
-    font-family: 'Roboto';
+    font-family: "Roboto";
 }
 
 h1 {
-    font-family: 'Consolas';
+    font-family: "Consolas";
     font-style: italic;
+}
+
+h2 {
+    font-family: "Consolas";
 }
 
 .italics {

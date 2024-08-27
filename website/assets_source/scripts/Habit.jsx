@@ -5,14 +5,19 @@ function Habit({ name, desc, reward, history }) {
     const [hasHistory, setHasHistory] = useState(typeof(history) !== "string");
     const history_list = [];
 
-    // FIXME: something causes constant rerendering :[
     if (typeof(history) !== "string") {
-        console.log("Testing");
         for (const index in history) {
             const item = history[index];
-            history_list.push(<li>
-                { item.timestamp } - { item.notes }
-            </li>);
+            if (item.notes === "") {
+                history_list.push(<li>
+                    { item.timestamp }
+                </li>);
+            }
+            else {
+                history_list.push(<li>
+                    { item.timestamp } - { item.notes }
+                </li>);
+            }
         }
     }
 
@@ -26,7 +31,7 @@ function Habit({ name, desc, reward, history }) {
     };
     
     return (
-        <div style={ styles.container }>
+        <div style={ styles.container } className="habit">
             <h3 style={ styles.h3 }>{ name }</h3>
             <p>{ desc }</p>
             <p>Linked reward: { reward }</p>

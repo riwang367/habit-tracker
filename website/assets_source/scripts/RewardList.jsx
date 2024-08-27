@@ -2,8 +2,8 @@ import React from "react";
 import Reward from "./Reward";
 import { replaceQuotes } from "./helperFunctions.js";
 
-function RewardList({ list }) {
-    const json_list = JSON.parse(replaceQuotes(list));
+function RewardList({ rewards }) {
+    const json_list = JSON.parse(replaceQuotes(rewards));
 
     const reward_list = [];
     for (const index in json_list) {
@@ -18,7 +18,10 @@ function RewardList({ list }) {
     }
 
     return (
-        <div>{ reward_list }</div>
+        <div className="rewards-container">
+            <h2>Rewards</h2>
+            <div className="reward-list">{ reward_list }</div>
+        </div>
     )
 };
 
