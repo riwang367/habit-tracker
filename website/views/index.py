@@ -1,4 +1,5 @@
 import flask
+from datetime import datetime
 import website
 
 @website.app.route("/", methods=["GET"])
@@ -33,7 +34,6 @@ def show_index():
     # } }
     habits_dict = {}
 
-    # FIXME: history prints - - - -
     for count, habit in enumerate(habits):
         if (habit["habit_desc"] == None):
             habit.pop("habit_desc")
@@ -56,17 +56,16 @@ def show_index():
         if (len(history) == 0):
             habit["history"] = "Nothing tracked yet"
         else:
-            # FIXME: change the id to a string
             history_dict = {}
             for index, dict in enumerate(history):
+                if (dict["notes"] is None):
+                    dict["notes"] = ""
+
                 history_dict[str(index)] = dict
             
-            print(history_dict)
             habit["history"] = history_dict
 
         habits_dict[str(count)] = habit
-
-    print(habits_dict)
 
     context = {
         "rewards": rewards_dict,
@@ -130,4 +129,26 @@ def add_reward():
         (reward, goal)
     )
     
+    return flask.redirect(flask.url_for("show_index"))
+
+@website.app.route("/track/<id>/", methods=["POST"])
+def track_habit(id):
+    notes = flask.request.form["notes"]
+    # Example string: 08/26/24, 4:12 PM
+    timestamp = datetime.now().strftime("%m/%d/%y, %I:%M %p")
+
+    connection = website.model.get_db()
+    if (notes is None or notes == ""):
+        connection.execute(
+            "INSERT INTO habit" + str(id) + "(timestamp)"
+            "VALUES (?)",
+            (timestamp,)
+        )
+    else:
+        connection.execute(
+            "INSERT INTO habit" + str(id) + "(timestamp, notes)"
+            "VALUES (?, ?)",
+            (timestamp, notes)
+        )
+
     return flask.redirect(flask.url_for("show_index"))
