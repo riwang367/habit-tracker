@@ -1,25 +1,19 @@
+"""API requests for index.html"""
+
 import flask
 from datetime import datetime
 import website
+import website.views.helpers as helpers
 
 @website.app.route("/", methods=["GET"])
 def show_index():
     connection = website.model.get_db()
 
     cur = connection.execute(
-        "SELECT reward_name, reward_desc, goal, progress FROM Rewards"
+        "SELECT * FROM Rewards"
     )
     rewards = cur.fetchall()
-    # Manipulate rewards for easier attribute parsing in React
-    # { index : { rewards values } }
-    rewards_dict = {}
-    for count, reward in enumerate(rewards):
-        # Remove reward_desc from obj if empty
-        if (reward["reward_desc"] == None):
-            reward.pop("reward_desc")
-
-        # Convert index to string to match JSON format
-        rewards_dict[str(count)] = reward
+    rewards_dict = helpers.convert_rewards(rewards)
 
     cur = connection.execute(
         "SELECT * FROM Habits"
@@ -131,8 +125,8 @@ def add_reward():
     
     return flask.redirect(flask.url_for("show_index"))
 
-@website.app.route("/track/<id>/", methods=["POST"])
-def track_habit(id):
+@website.app.route("/track/<habit_id>/", methods=["POST"])
+def track_habit(habit_id):
     notes = flask.request.form["notes"]
     # Example string: 08/26/24, 4:12 PM
     timestamp = datetime.now().strftime("%m/%d/%y, %I:%M %p")
@@ -140,15 +134,50 @@ def track_habit(id):
     connection = website.model.get_db()
     if (notes is None or notes == ""):
         connection.execute(
-            "INSERT INTO habit" + str(id) + "(timestamp)"
+            "INSERT INTO habit" + str(habit_id) + "(timestamp) "
             "VALUES (?)",
             (timestamp,)
         )
     else:
         connection.execute(
-            "INSERT INTO habit" + str(id) + "(timestamp, notes)"
+            "INSERT INTO habit" + str(habit_id) + "(timestamp, notes) "
             "VALUES (?, ?)",
             (timestamp, notes)
         )
+
+    reward_id = connection.execute(
+        "SELECT reward_id FROM Habits "
+        "WHERE habit_id = ?",
+        (habit_id,)
+    ).fetchone()["reward_id"]
+
+    cur = connection.execute(
+        "SELECT progress, goal, times_goal_met FROM Rewards "
+        "WHERE reward_id = ?",
+        (reward_id,)
+    ).fetchone()
+
+    progress = cur["progress"] + 1
+    goal = cur["goal"]
+    times_goal_met = cur["times_goal_met"]
+
+    # FIXME: if you reach the goal, need to change
+    if (progress < goal):
+        print(f"-------------------{progress}")
+        connection.execute(
+            "UPDATE Rewards "
+            "SET progress = ? "
+            "WHERE reward_id = ?",
+            (progress, reward_id)
+        )
+    else:
+        times_goal_met += 1
+        connection.execute(
+            "UPDATE Rewards "
+            "SET progress = 0, times_goal_met = ? "
+            "WHERE reward_id = ?",
+            (times_goal_met, reward_id)
+        )
+        # TODO: return a pop-up saying goal met
 
     return flask.redirect(flask.url_for("show_index"))
