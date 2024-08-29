@@ -11,7 +11,8 @@ CREATE TABLE Rewards (
     reward_name VARCHAR(100) UNIQUE NOT NULL,
     reward_desc TEXT,
     goal INTEGER NOT NULL,
-    progress DOUBLE NOT NULL DEFAULT 0
+    progress DOUBLE NOT NULL DEFAULT 0,
+    times_goal_met INTEGER NOT NULL DEFAULT 0
 );
 
 -- Template for habits

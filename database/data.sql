@@ -1,5 +1,5 @@
 INSERT INTO Rewards(reward_id, reward_name, reward_desc, goal)
-VALUES (0, "Test reward", "Description", 14);
+VALUES (0, "Test reward", "Description", 3);
 
 INSERT INTO Habits(habit_id, habit_name, reward_id)
 VALUES (0, "Test habit", 0);
