@@ -7,11 +7,7 @@ h1 {
     font-style: italic;
 }
 
-h2 {
-    font-family: "Consolas";
-}
-
-h3 {
+h2, h3, h4, h5, h6 {
     font-family: "Consolas";
 }
 
