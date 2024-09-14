@@ -1,9 +1,28 @@
 import React from "react";
-import { useState } from 'react';
+import { useState } from "react";
+import Button from "./Button";
 
-function Habit({ name, desc, reward, history }) {
+function Habit({ id, name, desc, reward, history }) {
     const [hasHistory, setHasHistory] = useState(typeof(history) !== "string");
     const history_list = [];
+
+    // FIXME: for some reason runs automatically
+    const handleDelete = async() => {
+        console.log("clicked " + id);
+        try {
+            const response = await fetch("/delete-habit/" + id + "/",
+                { method: "DELETE" }
+            );
+            if (!response.ok) {
+              throw new Error(`Response status: ${response.status}`);
+              // TODO: have a visual display for user
+            }
+            console.log("Deleted");
+            location.reload();
+          } catch (error) {
+            console.error(error.message);
+          }
+    }
 
     if (typeof(history) !== "string") {
         for (const index in history) {
@@ -38,6 +57,7 @@ function Habit({ name, desc, reward, history }) {
             <ul>
                 { hasHistory ? history_list : "Nothing tracked yet!"}
             </ul>
+            <Button handleClick={ handleDelete } text={ "Delete habit" } />
         </div>
     )
 };

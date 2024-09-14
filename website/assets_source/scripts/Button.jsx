@@ -1,10 +1,8 @@
 import React from "react";
 
-function Button({buttonAction, buttonText}) {
+function Button({handleClick, text}) {
     return (
-        <div>
-            <p onClick={buttonAction}>{ buttonText }</p>
-        </div>
+        <button onClick={handleClick} type="button">{ text }</button>
     )
 };
 

@@ -13,7 +13,7 @@ def show_index():
         "SELECT * FROM Rewards"
     )
     rewards = cur.fetchall()
-    rewards_dict = helpers.convert_rewards(rewards)
+    rewards_dict = helpers.rewards_to_json(rewards)
 
     cur = connection.execute(
         "SELECT * FROM Habits"
@@ -27,39 +27,7 @@ def show_index():
     #       "history": records from habit_name table
     # } }
     habits_dict = {}
-
-    for count, habit in enumerate(habits):
-        if (habit["habit_desc"] == None):
-            habit.pop("habit_desc")
-
-        # Change reward value to name
-        cur = connection.execute(
-            "SELECT reward_name FROM Rewards "
-            "WHERE reward_id = ?",
-            (habit["reward_id"],)
-        )
-        
-        habit["reward"] = cur.fetchone()["reward_name"]
-        habit.pop("reward_id")
-        
-        cur = connection.execute(
-            "SELECT timestamp, notes FROM habit" + str(habit["habit_id"])
-        )
-        history = cur.fetchall()
-
-        if (len(history) == 0):
-            habit["history"] = "Nothing tracked yet"
-        else:
-            history_dict = {}
-            for index, dict in enumerate(history):
-                if (dict["notes"] is None):
-                    dict["notes"] = ""
-
-                history_dict[str(index)] = dict
-            
-            habit["history"] = history_dict
-
-        habits_dict[str(count)] = habit
+    habits_dict = helpers.habits_to_json(habits, habits_dict, connection)
 
     context = {
         "rewards": rewards_dict,
@@ -111,6 +79,21 @@ def add_habit():
     
     return flask.redirect(flask.url_for("show_index"))
 
+@website.app.route("/delete-habit/<habit_id>/", methods=["DELETE"])
+def delete_habit(habit_id):
+    connection = website.model.get_db()
+    connection.execute(
+        "DELETE FROM Habits "
+        "WHERE habit_id = ?",
+        (habit_id,)
+    )
+
+    connection.execute(
+        "DROP TABLE habit" + str(habit_id)
+    )
+
+    return "200"
+
 @website.app.route("/add-reward/", methods=["POST"])
 def add_reward():
     reward = flask.request.form["reward"]
@@ -124,6 +107,17 @@ def add_reward():
     )
     
     return flask.redirect(flask.url_for("show_index"))
+
+@website.app.route("/delete-reward/<reward_id>/", methods=["DELETE"])
+def delete_reward(reward_id):
+    connection = website.model.get_db()
+    connection.execute(
+        "DELETE FROM Rewards "
+        "WHERE reward_id = ?",
+        (reward_id,)
+    )
+
+    return "200"
 
 @website.app.route("/track/<habit_id>/", methods=["POST"])
 def track_habit(habit_id):
@@ -161,7 +155,6 @@ def track_habit(habit_id):
     goal = cur["goal"]
     times_goal_met = cur["times_goal_met"]
 
-    # FIXME: if you reach the goal, need to change
     if (progress < goal):
         print(f"-------------------{progress}")
         connection.execute(

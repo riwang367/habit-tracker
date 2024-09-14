@@ -10,6 +10,7 @@ function HabitList({ habits }) {
         const item = json_list[index];
         habit_list.push(<Habit 
             key={ item.habit_id } 
+            id={ item.habit_id }
             name={ item.habit_name }
             desc={ item.habit_desc }
             reward={ item.reward }

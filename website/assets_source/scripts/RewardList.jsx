@@ -10,6 +10,7 @@ function RewardList({ rewards }) {
         const item = json_list[index];
         reward_list.push(<Reward 
             key={ item.reward_id } 
+            id={ item.reward_id } 
             name={ item.reward_name }
             desc={ item.reward_desc }
             goal={ item.goal }
