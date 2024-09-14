@@ -1,6 +1,6 @@
 CREATE TABLE Habits (
     habit_id INTEGER PRIMARY KEY,
-    habit_name VARCHAR(100) UNIQUE NOT NULL,
+    habit_name VARCHAR(100) NOT NULL,
     habit_desc TEXT,
     reward_id INTEGER NOT NULL,
     FOREIGN KEY(reward_id) REFERENCES Rewards (reward_id)
